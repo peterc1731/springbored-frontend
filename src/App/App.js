@@ -43,7 +43,7 @@ class App extends Component {
                             <Route path="/login" component={() => (<Login loggedIn={this.state.loggedIn} logIn={() => this.logIn()} />)} />
                             <Route path="/register" component={Register} />
                             <Route path="/tasks" component={() => (<Tasks loggedIn={this.state.loggedIn} />)} />
-                            <Route path="/teams/:teamId" component={() => (<Team loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/teams/:teamId" component={(props) => (<Team loggedIn={this.state.loggedIn} otherProps={props}/>)} />
                             <Route exact path="/" component={Home} />
                         </div>
                     </div>

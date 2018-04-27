@@ -2,34 +2,22 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { callAPI } from '../utils/helpers'
 
-class Team extends Component {
+class Tasks extends Component {
 
   constructor(props) {
         super(props)
         this.state = {
-            tasks: [],
-            team: {}
+            tasks: []
         }
         this.getTasks = this.getTasks.bind(this)
   }
 
   componentDidMount() {
-      console.log("component mounted")
-      this.getTeam()
       this.getTasks()
-  }
-  
-  getTeam() {
-      callAPI("get","/teams/" + this.props.otherProps.match.params.teamId)
-      .then(response => {
-        this.setState({ team: response })
-      }).catch(err => {
-        console.log(`Error: ${err.message}`)
-      })
   }
 
   getTasks() {
-        callAPI("get","/tasks/team/" + this.props.otherProps.match.params.teamId)
+        callAPI("get","/tasks/user")
         .then(response => {
             this.setState({ tasks: response })
         }).catch(err => {
@@ -43,34 +31,29 @@ class Team extends Component {
             done_items = []
         this.state.tasks.forEach((task) => {
             if (task.status === "Pending") {
-                pending_items.push(<TeamsItem task={task} key={task._id} />)
+                pending_items.push(<TasksItem task={task} key={task._id} />)
             } else if (task.status === "Ongoing") {
-                ongoing_items.push(<TeamsItem task={task} key={task._id} />)
+                ongoing_items.push(<TasksItem task={task} key={task._id} />)
             } else if (task.status === "Done") {
-                done_items.push(<TeamsItem task={task} key={task._id} />)
+                done_items.push(<TasksItem task={task} key={task._id} />)
             }
         })
         
         if (this.props.loggedIn) return (
-            <div>
-                <div>
-                    <h4 className="text-center text-info">{this.state.team.name}</h4>
+            <div className="tasks d-flex flex-row justify-content-around mt-5"> 
+                <div className="pending-tasks">
+                    <h3 className="text-center">Pending</h3>
+                    { pending_items }
                 </div>
-                <div className="tasks d-flex flex-row justify-content-around mt-5"> 
-                    <div className="pending-tasks">
-                        <h3 className="text-center">Pending</h3>
-                        { pending_items }
-                    </div>
-                    
-                    <div className="pending-tasks">
-                        <h3 className="text-center">Ongoing</h3>
-                        { ongoing_items }
-                    </div>
-                    
-                    <div className="pending-tasks">
-                        <h3 className="text-center">Done</h3>
-                        { done_items }
-                    </div>
+                
+                <div className="pending-tasks">
+                    <h3 className="text-center">Ongoing</h3>
+                    { ongoing_items }
+                </div>
+                
+                <div className="pending-tasks">
+                    <h3 className="text-center">Done</h3>
+                    { done_items }
                 </div>
             </div>
         )
@@ -81,7 +64,7 @@ class Team extends Component {
 
 }
 
-class TeamsItem extends Component {
+class TasksItem extends Component {
   render() {
         return (
             <div className="card m-3">
@@ -97,4 +80,4 @@ class TeamsItem extends Component {
     }
 }
 
-export default Team
+export default Tasks
