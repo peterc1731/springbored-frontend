@@ -87,7 +87,7 @@ class Login extends Component {
                 </div>
             </form>
         )
-        else return (<Redirect to="/feed" />)
+        else return (<Redirect to="/tasks" />)
     }
 }
 

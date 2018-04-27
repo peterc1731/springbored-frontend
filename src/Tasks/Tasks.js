@@ -50,6 +50,9 @@ class TasksItem extends Component {
                 <div className="card-body">
                     <h6 className="card-subtitle mb-2 text-muted">{ this.props.task.title }</h6>
                     <p className="card-text">{ this.props.task.description }</p>
+                    <p className="card-text">{ this.props.task.status }</p>
+                    <p className="card-text">{ this.props.task.effort }</p>
+                    
                 </div>
             </div>
         )

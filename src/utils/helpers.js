@@ -9,6 +9,8 @@ const monthNames = [
 
 function callAPI (method, path, body = null) {
     
+    console.log(localStorage.getItem("token"));
+
     return fetch( baseUrl + path, {
         method: method,
         headers: {

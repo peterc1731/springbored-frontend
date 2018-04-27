@@ -3,7 +3,6 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import Home from '../Home/Home'
 import Header from '../Header/Header'
 import Profile from '../Profile/Profile'
-import Feed from '../Feed/Feed'
 import Settings from '../Settings/Settings'
 import Login from '../Login/Login'
 import Register from '../Register/Register'
@@ -38,7 +37,6 @@ class App extends Component {
                     <Header loggedIn={this.state.loggedIn} logOut={() => this.logOut()} />
                     <div className="container">
                         <Route path="/profile/me" component={() => (<Profile loggedIn={this.state.loggedIn} />)} />
-                        <Route path="/feed" component={() => (<Feed loggedIn={this.state.loggedIn} />)} />
                         <Route path="/settings" component={() => (<Settings loggedIn={this.state.loggedIn} />)} />
                         <Route path="/login" component={() => (<Login loggedIn={this.state.loggedIn} logIn={() => this.logIn()} />)} />
                         <Route path="/register" component={Register} />
