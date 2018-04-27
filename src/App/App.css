@@ -1,0 +1,55 @@
+.container {
+    width: 800px;
+    margin: auto;
+}
+
+.profile {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav {
+    margin: 20px 30px 50px 30px;
+    border-radius: 4px;
+}
+
+.profile-content {
+    width: 60%;
+}
+
+.feed-item {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin: 50px auto 0 auto;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+    
+}
+
+.feed-content {
+    width: 80%;
+}
+
+.feed-show-button {
+    margin: 50px auto 100px auto;
+    display: flex;
+}
+
+.feed-post {
+    width: 400px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
