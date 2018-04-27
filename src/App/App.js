@@ -7,6 +7,7 @@ import Feed from '../Feed/Feed'
 import Settings from '../Settings/Settings'
 import Login from '../Login/Login'
 import Register from '../Register/Register'
+import Tasks from '../Tasks/Tasks'
 import './App.css'
 
 class App extends Component {
@@ -41,6 +42,7 @@ class App extends Component {
                         <Route path="/settings" component={() => (<Settings loggedIn={this.state.loggedIn} />)} />
                         <Route path="/login" component={() => (<Login loggedIn={this.state.loggedIn} logIn={() => this.logIn()} />)} />
                         <Route path="/register" component={Register} />
+                        <Route path="/tasks" component={() => (<Tasks loggedIn={this.state.loggedIn} />)} />
                         <Route exact path="/" component={Home} />
                     </div>
                 </div>

@@ -16,7 +16,7 @@ class Header extends Component {
                         <NavLink className="nav-link" to="/profile/me">Profile</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/feed">Feed</NavLink>
+                        <NavLink className="nav-link" to="/tasks">Tasks</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/settings">Settings</NavLink>
@@ -42,8 +42,8 @@ class Header extends Component {
     
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
-                <Link className="navbar-brand" to="/">Social Co</Link>
+            <nav className="sidebar navbar-expand-lg navbar-dark bg-primary justify-content-between">
+                <Link className="navbar-brand" to="/">springbored</Link>
                 <div className="navbar-nav">
                     { this.links() }
                 </div>
