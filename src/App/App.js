@@ -7,6 +7,7 @@ import Settings from '../Settings/Settings'
 import Login from '../Login/Login'
 import Register from '../Register/Register'
 import Tasks from '../Tasks/Tasks'
+import Team from '../Team/Team'
 import './App.css'
 
 class App extends Component {
@@ -31,21 +32,41 @@ class App extends Component {
     }
     
     render() {
-        return (
-            <BrowserRouter>
-                <div className="app">
-                    <Header loggedIn={this.state.loggedIn} logOut={() => this.logOut()} />
-                    <div className="container">
-                        <Route path="/profile/me" component={() => (<Profile loggedIn={this.state.loggedIn} />)} />
-                        <Route path="/settings" component={() => (<Settings loggedIn={this.state.loggedIn} />)} />
-                        <Route path="/login" component={() => (<Login loggedIn={this.state.loggedIn} logIn={() => this.logIn()} />)} />
-                        <Route path="/register" component={Register} />
-                        <Route path="/tasks" component={() => (<Tasks loggedIn={this.state.loggedIn} />)} />
-                        <Route exact path="/" component={Home} />
+        if (this.state.loggedIn){
+            return (
+                <BrowserRouter>
+                    <div className="app d-flex justify-content-between">
+                        <Header loggedIn={this.state.loggedIn} logOut={() => this.logOut()} />
+                        <div className="container">
+                            <Route path="/profile/me" component={() => (<Profile loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/settings" component={() => (<Settings loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/login" component={() => (<Login loggedIn={this.state.loggedIn} logIn={() => this.logIn()} />)} />
+                            <Route path="/register" component={Register} />
+                            <Route path="/tasks" component={() => (<Tasks loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/teams/:teamId" component={() => (<Team loggedIn={this.state.loggedIn} />)} />
+                            <Route exact path="/" component={Home} />
+                        </div>
                     </div>
-                </div>
-            </BrowserRouter>
-        )
+                </BrowserRouter>
+            )
+        } else {
+            return (
+                <BrowserRouter>
+                    <div className="app">
+                        <Header loggedIn={this.state.loggedIn} logOut={() => this.logOut()} />
+                        <div className="container">
+                            <Route path="/profile/me" component={() => (<Profile loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/settings" component={() => (<Settings loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/login" component={() => (<Login loggedIn={this.state.loggedIn} logIn={() => this.logIn()} />)} />
+                            <Route path="/register" component={Register} />
+                            <Route path="/tasks" component={() => (<Tasks loggedIn={this.state.loggedIn} />)} />
+                            <Route path="/team/:teamId" component={() => (<Team loggedIn={this.state.loggedIn} />)} />
+                            <Route exact path="/" component={Home} />
+                        </div>
+                    </div>
+                </BrowserRouter>
+            )
+        }
     }
 }
 

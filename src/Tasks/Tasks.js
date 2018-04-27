@@ -26,14 +26,35 @@ class Tasks extends Component {
     }
 
   render() {
-        let items = []
+        let pending_items = [],
+            ongoing_items = [],
+            done_items = []
         this.state.tasks.forEach((task) => {
-            items.push(<TasksItem task={task} key={task._id} />)
+            if (task.status === "Pending") {
+                pending_items.push(<TasksItem task={task} key={task._id} />)
+            } else if (task.status === "Ongoing") {
+                ongoing_items.push(<TasksItem task={task} key={task._id} />)
+            } else if (task.status === "Done") {
+                done_items.push(<TasksItem task={task} key={task._id} />)
+            }
         })
-
+        
         if (this.props.loggedIn) return (
-            <div className="tasks">
-                { items }
+            <div className="tasks d-flex flex-row justify-content-around mt-5"> 
+                <div className="pending-tasks">
+                    <h3 className="text-center">Pending</h3>
+                    { pending_items }
+                </div>
+                
+                <div className="pending-tasks">
+                    <h3 className="text-center">Ongoing</h3>
+                    { ongoing_items }
+                </div>
+                
+                <div className="pending-tasks">
+                    <h3 className="text-center">Done</h3>
+                    { done_items }
+                </div>
             </div>
         )
         else return (
@@ -50,8 +71,8 @@ class TasksItem extends Component {
                 <div className="card-body">
                     <h6 className="card-subtitle mb-2 text-muted">{ this.props.task.title }</h6>
                     <p className="card-text">{ this.props.task.description }</p>
-                    <p className="card-text">{ this.props.task.status }</p>
-                    <p className="card-text">{ this.props.task.effort }</p>
+                    <small className="card-text text-info">{ this.props.task.status }</small>
+                    <p className="card-text text-right">{ this.props.task.effort === 0 ? "" : this.props.task.effort }</p>
                     
                 </div>
             </div>

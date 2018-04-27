@@ -44,6 +44,15 @@ nav {
     justify-content: space-between;
 }
 
+.pending-tasks {
+    width: 32%;
+}
+
+.v-nav {
+    height: 100vh   
+}
+
+
 
 
 
