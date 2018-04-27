@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { callAPI } from '../utils/helpers'
+import Modal from 'react-modal'
+
+Modal.setAppElement('#root')
 
 class Header extends Component {
     
@@ -8,10 +11,48 @@ class Header extends Component {
         super(props)
         this.state = {
             teams: [],
-            teamNameList: []
+            teamNameList: [],
+            modalIsOpen: false,
+            name: ""
         }
         this.getTeams = this.getTeams.bind(this)
         this.links = this.links.bind(this)
+        this.openModal = this.openModal.bind(this)
+        this.afterOpenModal = this.afterOpenModal.bind(this)
+        this.closeModal = this.closeModal.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.submit = this.submit.bind(this)
+    }
+    
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+    
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value,
+            alert: {
+                show: false,
+                message: ""
+            }
+        })
+    }
+
+    afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        console.log("after modal")
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+    
+    submit() {
+        const team = { name: this.state.name }
+        callAPI("post", "/teams", team )
+        .then(response => {
+            
+        })
     }
 
     getTeams() {
@@ -54,6 +95,27 @@ class Header extends Component {
                     <li className="nav-item">
                         { this.state.teamNameList }
                     </li>
+                    <li className="nav-item mt-3">
+                        <i className="material-icons ml-5 text-success" onClick={this.openModal}>add_circle_outline</i>
+                    </li>
+                    <Modal
+                        isOpen={this.state.modalIsOpen}
+                        onAfterOpen={this.afterOpenModal}
+                        onRequestClose={this.closeModal}
+                        contentLabel="Example Modal"
+                     >
+                     
+                     <form className="w-75 m-auto">
+                        <div className="form-group">
+                            <label htmlFor="login-password">Name</label>
+                            <input type="text" className="form-control" id="modal-name" placeholder="Team Name" name="name" value={this.state.name} onChange={this.handleChange} />
+                        </div>
+                        <div className="form-group d-flex justify-content-center pt-5">
+                            <button type="button" className="btn btn-outline-primary m-auto" onClick={this.submit}>Create</button>
+                        </div>
+                    </form>
+                     
+                     </Modal>
                     
                 </ul>
             )

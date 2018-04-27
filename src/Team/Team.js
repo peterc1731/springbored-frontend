@@ -11,10 +11,16 @@ class Team extends Component {
             team: {}
         }
         this.getTasks = this.getTasks.bind(this)
+        this.getTeam = this.getTeam.bind(this)
   }
 
   componentDidMount() {
       console.log("component mounted")
+      this.getTeam()
+      this.getTasks()
+  }
+  
+  componentWillReceiveProps() {
       this.getTeam()
       this.getTasks()
   }
@@ -36,12 +42,14 @@ class Team extends Component {
             console.log(`Error: ${err.message}`)
         })
     }
+    
 
   render() {
         let pending_items = [],
             ongoing_items = [],
             done_items = []
         this.state.tasks.forEach((task) => {
+            
             if (task.status === "Pending") {
                 pending_items.push(<TeamsItem task={task} key={task._id} />)
             } else if (task.status === "Ongoing") {
@@ -88,7 +96,8 @@ class TeamsItem extends Component {
                 <div className="card-body">
                     <h6 className="card-subtitle mb-2 text-muted">{ this.props.task.title }</h6>
                     <p className="card-text">{ this.props.task.description }</p>
-                    <small className="card-text text-info">{ this.props.task.status }</small>
+                    <p><small className="card-text text-info">{ this.props.task.status }</small></p>
+                    <p><small className="card-text text-success">(username)</small></p>
                     <p className="card-text text-right">{ this.props.task.effort === 0 ? "" : this.props.task.effort }</p>
                     
                 </div>
