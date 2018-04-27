@@ -51,7 +51,7 @@ class Header extends Component {
         const team = { name: this.state.name }
         callAPI("post", "/teams", team )
         .then(response => {
-            
+            this.closeModal()
         })
     }
 
