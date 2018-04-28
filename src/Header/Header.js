@@ -5,6 +5,18 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('#root')
 
+const customStyles = {
+    content : {
+        top                   : '30%',
+        left                  : '50%',
+        width                 : '500px',
+        height                : '330px',
+        right                 : 'auto',
+        bottom                : 'auto',
+        transform             : 'translate(-50%, -50%)'
+    }
+}
+
 class Header extends Component {
     
     constructor(props) {
@@ -13,15 +25,22 @@ class Header extends Component {
             teams: [],
             teamNameList: [],
             modalIsOpen: false,
-            name: ""
+            name: "",
+            usernames: "",
+            username: ""
         }
         this.getTeams = this.getTeams.bind(this)
+        this.getUser = this.getUser.bind(this)
         this.links = this.links.bind(this)
         this.openModal = this.openModal.bind(this)
-        this.afterOpenModal = this.afterOpenModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.submit = this.submit.bind(this)
+    }
+    
+    componentDidMount() {
+        this.getTeams()
+        this.getUser()
     }
     
     openModal() {
@@ -30,17 +49,8 @@ class Header extends Component {
     
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value,
-            alert: {
-                show: false,
-                message: ""
-            }
+            [event.target.name]: event.target.value
         })
-    }
-
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        console.log("after modal")
     }
 
     closeModal() {
@@ -48,9 +58,13 @@ class Header extends Component {
     }
     
     submit() {
-        const team = { name: this.state.name }
+        const team = { 
+            name: this.state.name,
+            members: this.state.usernames
+        }
         callAPI("post", "/teams", team )
         .then(response => {
+            this.getTeams()
             this.closeModal()
         })
     }
@@ -67,6 +81,15 @@ class Header extends Component {
         })
     }
     
+    getUser() {
+        callAPI("get","/me")
+        .then(response => {
+            this.setState({ username: response.username })
+        }).catch(err => {
+            console.log(`Error: ${err.message}`)
+        })
+    }
+    
     logout() {
         this.props.logOut()
         localStorage.setItem("token", "")
@@ -76,18 +99,12 @@ class Header extends Component {
     links() {
         if (this.props.loggedIn) {
             return (
-                <ul className="nav flex-column pt-5 bg-light pl-4 pr-4 h-100">
+                <ul className="nav flex-column pt-5 bg-light pl-5 pr-5 h-100">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/" onClick={() => this.logout()}>Logout</Link>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to="/settings">Settings</NavLink>
-                    </li>
-                    <li className="nav-item mb-5">
-                        <NavLink className="nav-link" to="/profile/me">Profile</NavLink>
+                        <NavLink className="nav-link text-success" to="/profile/me">{ this.state.username }</NavLink>
                     </li>
                     <li className="nav-item mt-5 mb-5">
-                        <NavLink className="nav-link" to="/tasks">Your Tasks</NavLink>
+                        <NavLink className="nav-link" to="/tasks">Tasks</NavLink>
                     </li>
                     <li className="nav-item mt-5">
                         <h6 className="ml-3">Teams</h6>
@@ -102,19 +119,25 @@ class Header extends Component {
                         isOpen={this.state.modalIsOpen}
                         onAfterOpen={this.afterOpenModal}
                         onRequestClose={this.closeModal}
-                        contentLabel="Example Modal"
+                        style={customStyles}
+                        contentLabel="Create Team Modal"
                      >
                      
-                     <form className="w-75 m-auto">
-                        <div className="form-group">
-                            <label htmlFor="login-password">Name</label>
-                            <input type="text" className="form-control" id="modal-name" placeholder="Team Name" name="name" value={this.state.name} onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group d-flex justify-content-center pt-5">
-                            <button type="button" className="btn btn-outline-primary m-auto" onClick={this.submit}>Create</button>
-                        </div>
-                    </form>
-                     
+                        <form className="w-75 m-auto">
+                            <div className="form-group mt-3">
+                                <label htmlFor="modal-name">Name</label>
+                                <input type="text" className="form-control" id="modal-name" placeholder="Team Name" name="name" value={this.state.name} onChange={this.handleChange} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="modal-unames">Members</label>
+                                <input type="text" className="form-control" id="modal-unames" placeholder="user123,jsmith,bob7..." name="usernames" value={this.state.usernames} onChange={this.handleChange} />
+                                <small className="form-text text-muted">Enter a list of usernames separated by commas.</small>
+                            </div>
+                            <div className="form-group d-flex justify-content-center pt-3">
+                                <button type="button" className="btn btn-outline-primary m-auto" onClick={this.submit}>Create</button>
+                            </div>
+                        </form>
+                        
                      </Modal>
                     
                 </ul>
@@ -135,7 +158,6 @@ class Header extends Component {
     
     render() {
         if (!this.props.loggedIn) {
-            this.getTeams()
             return (
                 <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
                     <Link className="navbar-brand" to="/">springbored</Link>

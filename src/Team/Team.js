@@ -15,7 +15,6 @@ class Team extends Component {
   }
 
   componentDidMount() {
-      console.log("component mounted")
       this.getTeam()
       this.getTasks()
   }
@@ -97,7 +96,7 @@ class TeamsItem extends Component {
                     <h6 className="card-subtitle mb-2 text-muted">{ this.props.task.title }</h6>
                     <p className="card-text">{ this.props.task.description }</p>
                     <p><small className="card-text text-info">{ this.props.task.status }</small></p>
-                    <p><small className="card-text text-success">(username)</small></p>
+                    <p><small className="card-text text-success">{ this.props.task.assignee_username }</small></p>
                     <p className="card-text text-right">{ this.props.task.effort === 0 ? "" : this.props.task.effort }</p>
                     
                 </div>

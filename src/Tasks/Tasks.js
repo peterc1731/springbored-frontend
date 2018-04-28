@@ -73,7 +73,6 @@ class TasksItem extends Component {
                     <p className="card-text">{ this.props.task.description }</p>
                     <small className="card-text text-info">{ this.props.task.status }</small>
                     <p className="card-text text-right">{ this.props.task.effort === 0 ? "" : this.props.task.effort }</p>
-                    
                 </div>
             </div>
         )
